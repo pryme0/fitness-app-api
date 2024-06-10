@@ -8,5 +8,6 @@ import { AddOnEntity } from './entities';
   imports: [TypeOrmModule.forFeature([AddOnEntity])],
   controllers: [AddOnController],
   providers: [AddOnService],
+  exports: [AddOnService],
 })
-export class AddOnServicesModule {}
+export class AddOnModule {}

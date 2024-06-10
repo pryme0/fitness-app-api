@@ -1,6 +1,20 @@
 // src/addon-service/addon-service.entity.ts
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, Timestamp, UpdateDateColumn, ManyToMany } from 'typeorm';
-import { MembershipEntity } from '../../membership/entities/membership.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  CreateDateColumn,
+  Timestamp,
+  UpdateDateColumn,
+  ManyToMany,
+  OneToMany,
+} from 'typeorm';
+import {
+  MembershipEntity,
+  MembershipAddOnEntity,
+} from '../../membership/entities';
+import { InvoiceEntity } from 'src/invoice/entities/invoice.entity';
 
 @Entity()
 export class AddOnEntity {
@@ -10,11 +24,20 @@ export class AddOnEntity {
   @Column()
   name: string;
 
-  @Column({ type: 'decimal' })
+  @Column({ type: 'float', nullable: true })
   monthlyAmount: number;
 
-  @ManyToMany(() => MembershipEntity, (membership) => membership.addOns)
-  memberships: MembershipEntity[];
+  @Column({ type: 'text' })
+  description: string;
+
+  @ManyToMany(() => InvoiceEntity, (invoice) => invoice.addOns)
+  invoices: InvoiceEntity[];
+
+  @OneToMany(
+    () => MembershipAddOnEntity,
+    (membershipAddOn) => membershipAddOn.addOn,
+  )
+  membershipAddOns: MembershipAddOnEntity[];
 
   @CreateDateColumn({ nullable: false })
   createdAt: Timestamp;

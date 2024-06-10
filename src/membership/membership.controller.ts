@@ -9,10 +9,14 @@ import {
   Delete,
 } from '@nestjs/common';
 import { MembershipService } from './membership.service';
-import { MembershipEntity } from './entities';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { CreateMembershipInput, MembershipDto, UpdateMembershipInput } from './dto';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  CreateMembershipInput,
+  MembershipDto,
+  UpdateMembershipInput,
+} from './dto';
 
+@ApiTags('Memberships')
 @Controller('memberships')
 export class MembershipController {
   constructor(private readonly membershipService: MembershipService) {}
@@ -62,7 +66,7 @@ export class MembershipController {
   @ApiResponse({ status: 400, description: 'Invalid input.' })
   update(
     @Param('id') id: string,
-    @Body() membership: Partial<UpdateMembershipInput>,
+    @Body() membership: UpdateMembershipInput,
   ) {
     return this.membershipService.update(id, membership);
   }

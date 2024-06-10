@@ -18,15 +18,10 @@ export class CreateAddOnInput {
   @Min(0)
   monthlyAmount: number;
 
-  @ApiProperty({ description: 'Start date of the add-on service' })
-  @IsDateString()
-  @IsNotEmpty()
-  startDate: string;
-
   @ApiProperty({
-    description: 'ID of the membership associated with the add-on',
+    description: 'Description for the addon',
   })
   @IsString()
   @IsNotEmpty()
-  membershipId: string;
+  description: string;
 }

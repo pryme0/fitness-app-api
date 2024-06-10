@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { AddOnEntity } from './entities';
-import { AddOnDto } from './dto';
+import { AddOnDto, CreateAddOnInput } from './dto';
 
 @Injectable()
 export class AddOnService {
@@ -24,8 +24,8 @@ export class AddOnService {
     return await this.AddOnEntityRepository.findBy({ id: In(ids) });
   }
 
-  async create(AddOnEntity: AddOnEntity): Promise<AddOnEntity> {
-    return this.AddOnEntityRepository.save(AddOnEntity);
+  async create(input: CreateAddOnInput): Promise<AddOnEntity> {
+    return this.AddOnEntityRepository.save(input);
   }
 
   async update(id: string, AddOnEntity: Partial<AddOnEntity>): Promise<void> {

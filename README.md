@@ -29,34 +29,66 @@
 ## Installation
 
 ```bash
-$ yarn install
+$ npm install
 ```
 
 ## Running the app
 
 ```bash
 # development
-$ yarn run start
+$ npm run start:dev
 
 # watch mode
-$ yarn run start:dev
+$ npm run start:dev
 
 # production mode
-$ yarn run start:prod
+$ npm run start:prod
 ```
 
 ## Test
 
-```bash
-# unit tests
-$ yarn run test
-
-# e2e tests
-$ yarn run test:e2e
-
-# test coverage
-$ yarn run test:cov
 ```
+
+Fitness+ Server Documentation
+Overview
+
+The Fitness+ server is a backend application designed to manage memberships and invoices for a fitness club. It allows users to create memberships, add add-on services to their memberships, and generate invoices for payments.
+Entities
+Membership
+
+The Membership entity represents a user's membership to the fitness club. It contains information such as the user's details, membership type, start date, due date, and whether it's the first month of the membership.
+Add-On Service
+
+The Add-On Service entity represents additional services that users can add to their memberships, such as personal training or nutrition counseling. It contains information such as the service name and monthly amount.
+Invoice
+
+The Invoice entity represents an invoice generated for a user's membership. It contains information such as the total cost, month, status, and details of the membership and add-on services associated with the invoice.
+Relationships
+
+    A Membership can have multiple Add-On Services.
+    An Add-On Service can be associated with multiple Memberships.
+    An Invoice is associated with a single Membership and may include multiple Add-On Services.
+
+Cron Jobs
+
+The server utilizes cron jobs to automate the generation of invoices and reminders for users. There are two main cron jobs:
+
+    Membership Reminder Cron Job: This cron job runs daily to check for memberships that are due for payment. It sends reminder emails to users whose memberships are due soon, based on their membership type and whether it's the first month of their membership.
+
+    Add-On Service Reminder Cron Job: This cron job runs daily to check for add-on services that are due for payment. It sends reminder emails to users whose add-on services are due soon, based on the service's billing cycle.
+
+Running the Server
+
+To run the Fitness+ server locally, follow these steps:
+
+    Clone the repository from GitHub.
+    Install dependencies using npm install.
+    Set up the database connection in the .env file.
+    Run the server using npm start.
+
+API Documentation
+
+For detailed API documentation, refer to the OpenAPI specification provided by swagger , this can be accessed by hitting the /docs endpoint.
 
 ## Support
 

@@ -7,6 +7,9 @@ import {
   IsDateString,
   IsBoolean,
   IsArray,
+  IsISO8601,
+  Matches,
+  IsNumber,
 } from 'class-validator';
 
 export class CreateMembershipInput {
@@ -34,33 +37,19 @@ export class CreateMembershipInput {
   membershipType: string;
 
   @ApiProperty({ description: 'Start date of the membership' })
-  @IsDateString()
   @IsNotEmpty()
+  @IsISO8601()
+  @Matches(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/, {
+    message: 'Suspension start date must be in the format YYYY-MM-DD',
+  })
   startDate: string;
 
   @ApiProperty({
-    description:
-      'Due date for annual memberships or monthly due date for add-on services',
+    description: 'Total amount for annual or monthly memberships',
   })
-  @IsDateString()
+  @IsNumber()
   @IsNotEmpty()
-  dueDate: string;
-
-  @ApiProperty({
-    description:
-      'Total amount for annual memberships or monthly amount for add-on services',
-  })
-  @IsString()
-  @IsNotEmpty()
-  amount: string;
-
-  @ApiProperty({
-    description:
-      'Boolean flag indicating if it is the first month of the membership',
-  })
-  @IsBoolean()
-  @IsNotEmpty()
-  isFirstMonth: boolean;
+  amount: number;
 
   @ApiProperty({
     description: "Id's of addons associated with the new membership",

@@ -1,4 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { AddOnDto } from 'src/add-on-services/dto';
+import { InvoiceDto } from 'src/invoice/dto';
 import { Timestamp } from 'typeorm';
 
 export class MembershipDto {
@@ -24,13 +26,22 @@ export class MembershipDto {
     description:
       'Total amount for annual memberships or monthly amount for add-on services',
   })
-  totalAmount: number;
+  amount: number;
 
   @ApiProperty({
     description:
       'Boolean flag indicating if it is the first month of the membership',
   })
   isFirstMonth: boolean;
+
+  // @ApiProperty({ type: () => [AddOnDto] })
+  // addOns: AddOnDto[];
+
+  @ApiProperty()
+  dueDate: Date;
+
+  @ApiProperty({ type: () => [InvoiceDto] })
+  invoices: InvoiceDto[];
 
   @ApiProperty({
     description: 'Creation date',

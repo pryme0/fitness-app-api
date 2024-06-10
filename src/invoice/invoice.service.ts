@@ -1,34 +1,73 @@
-// invoice.service.ts
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { InvoiceEntity } from './entities/invoice.entity';
+import { InvoiceEntity } from './entities';
+import { MembershipService } from '../membership/membership.service';
 import { CreateInvoiceInput, InvoiceDto, UpdateInvoiceInput } from './dto';
+import { InvoiceStatus } from './entities/invoice.entity';
+import { MembershipAddOnEntity } from 'src/membership/entities';
 
 @Injectable()
 export class InvoiceService {
   constructor(
     @InjectRepository(InvoiceEntity)
     private readonly invoiceRepository: Repository<InvoiceEntity>,
+    @InjectRepository(MembershipAddOnEntity)
+    private readonly membershipAddOnRepository: Repository<MembershipAddOnEntity>,
+    @Inject(forwardRef(() => MembershipService))
+    private readonly membershipService: MembershipService,
   ) {}
 
   async createInvoice(input: CreateInvoiceInput): Promise<InvoiceDto> {
-    const newInvoice = this.invoiceRepository.create(input);
-    const savedInvoice = await this.invoiceRepository.save(newInvoice);
-    return this.mapToReadDto(savedInvoice);
+    const membership = await this.membershipService.findOne(input.membershipId);
+
+    const membershipAddOns = await this.membershipAddOnRepository.find({
+      where: { membership: { id: input.membershipId } },
+      relations: ['addOn'],
+    });
+
+    const addOnCost = membershipAddOns.reduce(
+      (total, membershipAddOn) => total + membershipAddOn.addOn.monthlyAmount,
+      0,
+    );
+    const membershipCost = membership.amount || 0;
+    const totalCost = membershipCost + addOnCost;
+
+    const newInvoice = this.invoiceRepository.create({
+      totalCost,
+      month: input.month,
+      status: InvoiceStatus.UNPAID,
+      membershipCost,
+      addOnCost,
+      membership,
+      addOns: membershipAddOns.map((mao) => mao.addOn),
+    });
+
+    return await this.invoiceRepository.save(newInvoice);
   }
 
   async getAllInvoices(): Promise<InvoiceDto[]> {
-    const invoices = await this.invoiceRepository.find();
-    return invoices.map(this.mapToReadDto);
+    const invoices = await this.invoiceRepository.find({
+      where: {},
+      relations: ['membership', 'addOns'],
+    });
+    return invoices;
   }
 
   async getInvoiceById(id: string): Promise<InvoiceDto> {
-    const invoice = await this.invoiceRepository.findOne({ where: { id } });
+    const invoice = await this.invoiceRepository.findOne({
+      where: { id },
+      relations: ['membership', 'addOns'],
+    });
     if (!invoice) {
       throw new NotFoundException('Invoice not found');
     }
-    return this.mapToReadDto(invoice);
+    return invoice;
   }
 
   async updateInvoice(
@@ -42,8 +81,7 @@ export class InvoiceService {
       throw new NotFoundException('Invoice not found');
     }
     const updatedInvoice = Object.assign(existingInvoice, input);
-    const savedInvoice = await this.invoiceRepository.save(updatedInvoice);
-    return this.mapToReadDto(savedInvoice);
+    return await this.invoiceRepository.save(updatedInvoice);
   }
 
   async deleteInvoice(id: string): Promise<{ id: string }> {
@@ -52,12 +90,5 @@ export class InvoiceService {
       throw new NotFoundException('Invoice not found');
     }
     return { id };
-  }
-
-  private mapToReadDto(invoice: InvoiceEntity): InvoiceDto {
-    return {
-      ...invoice,
-      membershipId: invoice.membership.id,
-    };
   }
 }

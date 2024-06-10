@@ -30,12 +30,4 @@ export class UpdateAddOnInput {
   @IsDateString()
   @IsOptional()
   startDate?: string;
-
-  @ApiProperty({
-    description: 'ID of the membership associated with the add-on',
-    required: false,
-  })
-  @IsString()
-  @IsOptional()
-  membershipId?: string;
 }

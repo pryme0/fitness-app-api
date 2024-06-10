@@ -1,4 +1,4 @@
-import { ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import {
   IsString,
   IsEmail,
@@ -6,8 +6,15 @@ import {
   IsDateString,
   IsBoolean,
   IsOptional,
+  IsISO8601,
+  Matches,
+  IsArray,
+  IsNotEmpty,
 } from 'class-validator';
-
+export enum MembershipTypeEnum {
+  AnnualBasic = 'Annual Basic',
+  MonthlyPremium = 'Monthly Premium',
+}
 export class UpdateMembershipInput {
   @ApiPropertyOptional({ description: 'First name of the member' })
   @IsString()
@@ -26,24 +33,19 @@ export class UpdateMembershipInput {
 
   @ApiPropertyOptional({
     description: 'Type of membership',
-    enum: ['Annual Basic', 'Monthly Premium'],
+    enum: MembershipTypeEnum,
   })
-  @IsEnum(['Annual Basic', 'Monthly Premium'])
+  @IsEnum(MembershipTypeEnum)
   @IsOptional()
   membershipType?: string;
 
   @ApiPropertyOptional({ description: 'Start date of the membership' })
-  @IsDateString()
+  @IsISO8601()
+  @Matches(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/, {
+    message: 'Suspension start date must be in the format YYYY-MM-DD',
+  })
   @IsOptional()
   startDate?: string;
-
-  @ApiPropertyOptional({
-    description:
-      'Due date for annual memberships or monthly due date for add-on services',
-  })
-  @IsDateString()
-  @IsOptional()
-  dueDate?: string;
 
   @ApiPropertyOptional({
     description:
@@ -53,11 +55,10 @@ export class UpdateMembershipInput {
   @IsOptional()
   amount?: string;
 
-  @ApiPropertyOptional({
-    description:
-      'Boolean flag indicating if it is the first month of the membership',
+  @ApiProperty({
+    description: "Id's of addons associated with the new membership",
   })
-  @IsBoolean()
-  @IsOptional()
-  isFirstMonth?: boolean;
+  @IsArray()
+  @IsNotEmpty()
+  addOnIds: string[];
 }

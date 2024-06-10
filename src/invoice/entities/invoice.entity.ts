@@ -1,3 +1,4 @@
+import { AddOnEntity } from 'src/add-on-services/entities';
 import { MembershipEntity } from 'src/membership/entities';
 import {
   Entity,
@@ -7,6 +8,8 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   Timestamp,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 
 export enum InvoiceStatus {
@@ -20,11 +23,17 @@ export class InvoiceEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  amount: number;
+  @Column({ type: 'decimal' })
+  membershipCost: number;
 
-  @Column({ type: 'date' })
-  month: Date;
+  @Column({ type: 'decimal', nullable: true })
+  addOnCost: number;
+
+  @Column({ type: 'decimal', nullable: true })
+  totalCost: number;
+
+  @Column()
+  month: string;
 
   @Column({
     type: 'simple-enum',
@@ -32,6 +41,10 @@ export class InvoiceEntity {
     default: InvoiceStatus.UNPAID,
   })
   status: InvoiceStatus;
+
+  @ManyToMany(() => AddOnEntity)
+  @JoinTable()
+  addOns: AddOnEntity[];
 
   @ManyToOne(() => MembershipEntity, (membership) => membership.invoices)
   membership: MembershipEntity;

@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { AddOnEntity } from '../../add-on-services/entities';
 import { InvoiceEntity } from 'src/invoice/entities/invoice.entity';
+import { MembershipAddOnEntity } from './membershipAddon.entity';
 
 @Entity()
 export class MembershipEntity {
@@ -32,8 +33,8 @@ export class MembershipEntity {
   @Column({ type: 'date', nullable: true })
   dueDate: Date;
 
-  @Column({ type: 'decimal', nullable: true })
-  totalAmount: number;
+  @Column({ type: 'float', nullable: true })
+  amount: number;
 
   @Column()
   email: string;
@@ -44,14 +45,16 @@ export class MembershipEntity {
   @OneToMany(() => InvoiceEntity, (invoice) => invoice.membership) // Define one-to-many relationship
   invoices: InvoiceEntity[];
 
-  
-  @ManyToMany(() => AddOnEntity, (addOn) => addOn.memberships)
-  @JoinTable()
-  addOns: AddOnEntity[];
+  @OneToMany(
+    () => MembershipAddOnEntity,
+    (membershipAddOn) => membershipAddOn.membership,
+  )
+  membershipAddOns: MembershipAddOnEntity[];
 
   @CreateDateColumn({ nullable: false })
   createdAt: Timestamp;
 
   @UpdateDateColumn({ nullable: false })
   updatedAt: Timestamp;
+  totalAmount: any;
 }

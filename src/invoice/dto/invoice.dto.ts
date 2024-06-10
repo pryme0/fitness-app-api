@@ -2,22 +2,38 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { InvoiceStatus } from '../entities/invoice.entity';
 import { Timestamp } from 'typeorm';
+import { MembershipDto } from 'src/membership/dto';
+import { AddOnDto } from 'src/add-on-services/dto';
+import { IsEnum } from 'class-validator';
 
 export class InvoiceDto {
   @ApiProperty()
   id: string;
 
   @ApiProperty()
-  amount: number;
+  membershipCost: number;
 
   @ApiProperty()
-  month: Date;
+  addOnCost: number;
 
-  @ApiProperty({ type: () => InvoiceStatus })
+  @ApiProperty()
+  totalCost: number;
+
+  @ApiProperty()
+  month: string;
+
+  @ApiProperty()
+  @IsEnum(InvoiceStatus)
   status: InvoiceStatus;
 
   @ApiProperty()
-  membershipId: string;
+  membershipId?: string;
+
+  @ApiProperty({ type: () => MembershipDto })
+  membership: MembershipDto;
+
+  @ApiProperty({ type: () => [AddOnDto] })
+  addOns: AddOnDto[];
 
   @ApiProperty({
     description: 'Creation date',
