@@ -5,14 +5,14 @@ import { Repository } from 'typeorm';
 
 import * as dayjs from 'dayjs';
 import * as utc from 'dayjs/plugin/utc';
-import { AddOnEntity } from 'src/add-on-services/entities';
-import { InvoiceEntity, InvoiceStatus } from 'src/invoice/entities';
-import { EmailService } from 'src/libs';
+import { AddOnEntity } from '../add-on-services/entities';
+import { InvoiceEntity, InvoiceStatus } from '../invoice/entities';
+import { EmailService } from '../libs';
 import {
   MembershipEntity,
   MembershipAddOnEntity,
-} from 'src/membership/entities';
-import { MembershipTypeEnum } from 'src/membership/dto';
+} from '../membership/entities';
+import { MembershipTypeEnum } from '../membership/dto';
 
 @Injectable()
 export class SchedulerService implements OnModuleInit {

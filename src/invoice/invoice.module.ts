@@ -4,7 +4,7 @@ import { InvoiceController } from './invoice.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { InvoiceEntity } from './entities/invoice.entity';
 import { MembershipModule } from '../membership/membership.module';
-import { MembershipAddOnEntity } from 'src/membership/entities';
+import { MembershipAddOnEntity } from '../membership/entities';
 
 @Module({
   imports: [

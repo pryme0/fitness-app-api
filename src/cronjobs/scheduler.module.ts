@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { SchedulerService } from './scheduler.service';
-import { InvoiceEntity } from 'src/invoice/entities';
-import { EmailService } from 'src/libs';
+import { InvoiceEntity } from '../invoice/entities';
+import { EmailService } from '../libs';
 import {
   MembershipEntity,
   MembershipAddOnEntity,
-} from 'src/membership/entities';
+} from '../membership/entities';
 
 @Module({
   imports: [

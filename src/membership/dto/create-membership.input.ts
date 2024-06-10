@@ -42,7 +42,7 @@ export class CreateMembershipInput {
   @Matches(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/, {
     message: 'Suspension start date must be in the format YYYY-MM-DD',
   })
-  startDate: string;
+  startDate: Date;
 
   @ApiProperty({
     description: 'Total amount for annual or monthly memberships',

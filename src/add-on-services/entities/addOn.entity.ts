@@ -1,4 +1,3 @@
-// src/addon-service/addon-service.entity.ts
 import {
   Entity,
   Column,
@@ -14,7 +13,7 @@ import {
   MembershipEntity,
   MembershipAddOnEntity,
 } from '../../membership/entities';
-import { InvoiceEntity } from 'src/invoice/entities/invoice.entity';
+import { InvoiceEntity } from '../../invoice/entities';
 
 @Entity()
 export class AddOnEntity {

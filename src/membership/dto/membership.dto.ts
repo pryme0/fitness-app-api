@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { AddOnDto } from 'src/add-on-services/dto';
-import { InvoiceDto } from 'src/invoice/dto';
+import { InvoiceDto } from '../../invoice/dto';
 import { Timestamp } from 'typeorm';
 
 export class MembershipDto {

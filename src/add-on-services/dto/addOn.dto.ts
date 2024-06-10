@@ -1,7 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsNotEmpty, IsNumber, Min } from 'class-validator';
-import { InvoiceDto } from 'src/invoice/dto';
-import { MembershipDto } from 'src/membership/dto';
+import { InvoiceDto } from '../../invoice/dto';
 import { Timestamp } from 'typeorm';
 
 export class AddOnDto {
@@ -24,12 +23,6 @@ export class AddOnDto {
   @IsNumber()
   @Min(0)
   monthlyAmount: number;
-
-  // @ApiProperty({
-  //   description: 'ID of the membership associated with the add-on',
-  //   type: () => MembershipDto,
-  // })
-  // memberships: MembershipDto[];
 
   @ApiProperty({
     description: 'Invoices of the add-on service',

@@ -1,5 +1,5 @@
-import { AddOnEntity } from 'src/add-on-services/entities';
-import { MembershipEntity } from 'src/membership/entities';
+import { AddOnEntity } from '../../add-on-services/entities';
+import { MembershipEntity } from '../../membership/entities';
 import {
   Entity,
   PrimaryGeneratedColumn,

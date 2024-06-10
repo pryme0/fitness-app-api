@@ -1,4 +1,3 @@
-// src/addon-service/addon-service.controller.ts
 import {
   Controller,
   Get,

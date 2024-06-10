@@ -10,7 +10,7 @@ import {
   ManyToMany,
 } from 'typeorm';
 import { AddOnEntity } from '../../add-on-services/entities';
-import { InvoiceEntity } from 'src/invoice/entities/invoice.entity';
+import { InvoiceEntity } from '../../invoice/entities';
 import { MembershipAddOnEntity } from './membershipAddon.entity';
 
 @Entity()
@@ -56,5 +56,4 @@ export class MembershipEntity {
 
   @UpdateDateColumn({ nullable: false })
   updatedAt: Timestamp;
-  totalAmount: any;
 }

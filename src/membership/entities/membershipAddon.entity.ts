@@ -6,7 +6,7 @@ import {
   Timestamp,
 } from 'typeorm';
 import { MembershipEntity } from './membership.entity';
-import { AddOnEntity } from 'src/add-on-services/entities';
+import { AddOnEntity } from '../../add-on-services/entities';
 
 @Entity()
 export class MembershipAddOnEntity {

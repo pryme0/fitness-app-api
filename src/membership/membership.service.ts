@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { InvoiceService } from 'src/invoice/invoice.service';
+import { InvoiceService } from '../invoice/invoice.service';
 import { Repository } from 'typeorm';
 import { AddOnService } from '../add-on-services/addOn.service';
 import {
@@ -12,7 +12,6 @@ import {
 import { MembershipAddOnEntity, MembershipEntity } from './entities';
 
 import * as dayjs from 'dayjs';
-import { InvoiceStatus } from 'src/invoice/entities';
 
 @Injectable()
 export class MembershipService {

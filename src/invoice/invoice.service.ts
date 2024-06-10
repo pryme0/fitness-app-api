@@ -10,7 +10,7 @@ import { InvoiceEntity } from './entities';
 import { MembershipService } from '../membership/membership.service';
 import { CreateInvoiceInput, InvoiceDto, UpdateInvoiceInput } from './dto';
 import { InvoiceStatus } from './entities/invoice.entity';
-import { MembershipAddOnEntity } from 'src/membership/entities';
+import { MembershipAddOnEntity } from '../membership/entities';
 
 @Injectable()
 export class InvoiceService {

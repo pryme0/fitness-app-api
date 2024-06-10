@@ -2,8 +2,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { InvoiceStatus } from '../entities/invoice.entity';
 import { Timestamp } from 'typeorm';
-import { MembershipDto } from 'src/membership/dto';
-import { AddOnDto } from 'src/add-on-services/dto';
+import { MembershipDto } from '../../membership/dto';
+import { AddOnDto } from '../../add-on-services/dto';
 import { IsEnum } from 'class-validator';
 
 export class InvoiceDto {

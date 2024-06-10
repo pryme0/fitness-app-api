@@ -1,4 +1,3 @@
-// src/membership/membership.controller.ts
 import {
   Controller,
   Get,
@@ -64,10 +63,7 @@ export class MembershipController {
     type: MembershipDto,
   })
   @ApiResponse({ status: 400, description: 'Invalid input.' })
-  update(
-    @Param('id') id: string,
-    @Body() membership: UpdateMembershipInput,
-  ) {
+  update(@Param('id') id: string, @Body() membership: UpdateMembershipInput) {
     return this.membershipService.update(id, membership);
   }
 
